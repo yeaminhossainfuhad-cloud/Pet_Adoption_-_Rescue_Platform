@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Homeward: Pet Adoption & Rescue Platform
 
 A Django web app where people browse pets, apply to adopt, and track their requests.
@@ -99,3 +100,6 @@ static/     css/style.css
 - **Favorite** (bonus): user, pet
 
 Uses Django's built-in `User` model.
+=======
+# Pet_Adoption_-_Rescue_Platform
+>>>>>>> 2fd8f3ba1bd3886a8c7a1106e264ec8b14bbb242
