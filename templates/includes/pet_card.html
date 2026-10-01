@@ -1,0 +1,33 @@
+<div class="pet-card {% if not pet.is_available %}is-adopted{% endif %}">
+  <a href="{% url 'pet_detail' pet.pk %}" aria-label="View {{ pet.name }}">
+    {% if pet.image %}
+      <img class="pet-photo" src="{{ pet.image.url }}" alt="Photo of {{ pet.name }}">
+    {% else %}
+      <div class="pet-photo pet-placeholder" aria-hidden="true">{{ pet.emoji }}</div>
+    {% endif %}
+  </a>
+  <div class="p-3">
+    <div class="d-flex justify-content-between align-items-start mb-2">
+      <h3 class="pet-name"><a class="text-decoration-none" href="{% url 'pet_detail' pet.pk %}">{{ pet.name }}</a></h3>
+      <span class="badge {% if pet.is_available %}text-bg-success{% else %}text-bg-secondary{% endif %}">{{ pet.status }}</span>
+    </div>
+    <dl class="pet-facts mb-3">
+      <dt>Type</dt><dd>{{ pet.animal_type }}</dd>
+      <dt>Breed</dt><dd>{{ pet.breed|default:"Not specified" }}</dd>
+      <dt>Age</dt><dd>{{ pet.age_display }}</dd>
+      <dt>Gender</dt><dd>{{ pet.gender }}</dd>
+      <dt>Location</dt><dd>{{ pet.location }}</dd>
+    </dl>
+    <div class="d-flex gap-2">
+      <a class="btn btn-primary btn-sm flex-grow-1" href="{% url 'pet_detail' pet.pk %}">View details</a>
+      {% if user.is_authenticated %}
+      <form method="post" action="{% url 'toggle_favorite' pet.pk %}">{% csrf_token %}
+        <input type="hidden" name="next" value="{{ request.get_full_path }}">
+        <button type="submit" class="btn btn-sm btn-outline-primary">
+          {% if pet.pk in favorite_ids %}♥ Saved{% else %}♡ Save{% endif %}
+        </button>
+      </form>
+      {% endif %}
+    </div>
+  </div>
+</div>

@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Find a pet{% endblock %}
+{% block content %}
+<h1 class="h2 mb-3">Find a pet</h1>
+<form method="get" class="filter-panel p-3 mb-4">
+  <div class="row g-3">
+    <div class="col-12 col-md-6 col-lg-4">{% include "includes/field.html" with field=form.q %}</div>
+    <div class="col-6 col-lg-2">{% include "includes/field.html" with field=form.animal_type %}</div>
+    <div class="col-6 col-lg-3">{% include "includes/field.html" with field=form.breed %}</div>
+    <div class="col-6 col-lg-3">{% include "includes/field.html" with field=form.gender %}</div>
+    <div class="col-6 col-lg-3">{% include "includes/field.html" with field=form.location %}</div>
+    <div class="col-12 col-lg-3">{% include "includes/field.html" with field=form.status %}</div>
+    <div class="col-12 col-lg-3 d-flex align-items-end pb-3 gap-2">
+      <button class="btn btn-primary" type="submit">Search</button>
+      <a class="btn btn-outline-secondary" href="{% url 'pet_list' %}">Clear</a>
+    </div>
+  </div>
+</form>
+
+<p class="text-muted">{{ page_obj.paginator.count }} pet{{ page_obj.paginator.count|pluralize }} found</p>
+<div class="row g-4">
+  {% for pet in page_obj %}
+  <div class="col-12 col-sm-6 col-lg-4">{% include "includes/pet_card.html" %}</div>
+  {% empty %}
+  <div class="empty-state">
+    <div class="big">🔍</div>
+    <p class="mb-1">No pets match those filters.</p>
+    <a href="{% url 'pet_list' %}">Clear filters and see all pets</a>
+  </div>
+  {% endfor %}
+</div>
+{% include "includes/pagination.html" %}
+{% endblock %}

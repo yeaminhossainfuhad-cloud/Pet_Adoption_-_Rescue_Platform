@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}{{ pet.name }}{% endblock %}
+{% block content %}
+<nav aria-label="breadcrumb"><ol class="breadcrumb">
+  <li class="breadcrumb-item"><a href="{% url 'pet_list' %}">Find a pet</a></li>
+  <li class="breadcrumb-item active" aria-current="page">{{ pet.name }}</li>
+</ol></nav>
+<div class="row g-4">
+  <div class="col-lg-6">
+    {% if pet.image %}
+      <img class="detail-photo" src="{{ pet.image.url }}" alt="Photo of {{ pet.name }}">
+    {% else %}
+      <div class="detail-photo pet-placeholder" aria-hidden="true">{{ pet.emoji }}</div>
+    {% endif %}
+  </div>
+  <div class="col-lg-6">
+    <div class="panel p-4">
+      <div class="d-flex justify-content-between align-items-start">
+        <h1 class="h2">{{ pet.name }}</h1>
+        <span class="badge fs-6 {% if pet.is_available %}text-bg-success{% else %}text-bg-secondary{% endif %}">{{ pet.status }}</span>
+      </div>
+      <dl class="pet-facts my-3">
+        <dt>Type</dt><dd>{{ pet.animal_type }}</dd>
+        <dt>Breed</dt><dd>{{ pet.breed|default:"Not specified" }}</dd>
+        <dt>Age</dt><dd>{{ pet.age_display }}</dd>
+        <dt>Gender</dt><dd>{{ pet.gender }}</dd>
+        <dt>Location</dt><dd>{{ pet.location }}</dd>
+      </dl>
+      <h2 class="h5">About {{ pet.name }}</h2>
+      <p>{{ pet.description|linebreaksbr }}</p>
+      <hr>
+      {% if not pet.is_available %}
+        <div class="alert alert-secondary mb-0">❌ This pet has already been adopted.</div>
+      {% elif existing_request %}
+        <div class="alert alert-info mb-0">
+          You already applied for {{ pet.name }} (status: {{ existing_request.status }}).
+          <a href="{% url 'my_requests' %}">View your requests</a>
+        </div>
+      {% else %}
+        <div class="d-flex gap-2 flex-wrap">
+          {% if user.is_authenticated %}
+            <a class="btn btn-accent btn-lg" href="{% url 'adopt' pet.pk %}">Apply for adoption</a>
+          {% else %}
+            <a class="btn btn-accent btn-lg" href="{% url 'login' %}?next={% url 'adopt' pet.pk %}">Log in to apply</a>
+          {% endif %}
+        </div>
+      {% endif %}
+      {% if user.is_authenticated %}
+      <form method="post" action="{% url 'toggle_favorite' pet.pk %}" class="mt-3">{% csrf_token %}
+        <button type="submit" class="btn btn-outline-primary btn-sm">{% if is_favorite %}♥ Remove from favorites{% else %}♡ Add to favorites{% endif %}</button>
+      </form>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

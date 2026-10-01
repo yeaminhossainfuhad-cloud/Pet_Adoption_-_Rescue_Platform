@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}My profile{% endblock %}
+{% block content %}
+<h1 class="h2 mb-3">My profile</h1>
+<div class="row g-4">
+  <div class="col-md-6">
+    <div class="panel p-4">
+      <dl class="pet-facts mb-0">
+        <dt>Username</dt><dd>{{ user.username }}</dd>
+        <dt>Name</dt><dd>{{ user.get_full_name|default:"Not set" }}</dd>
+        <dt>Email</dt><dd>{{ user.email|default:"Not set" }}</dd>
+        <dt>Joined</dt><dd>{{ user.date_joined|date:"d M Y" }}</dd>
+      </dl>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="panel p-4">
+      <h2 class="h5">Your activity</h2>
+      <p class="mb-1">Pending requests: <strong>{{ counts.Pending }}</strong></p>
+      <p class="mb-1">Approved requests: <strong>{{ counts.Approved }}</strong></p>
+      <p class="mb-1">Rejected requests: <strong>{{ counts.Rejected }}</strong></p>
+      <p class="mb-3">Favorite pets: <strong>{{ favorite_count }}</strong></p>
+      <a class="btn btn-primary btn-sm" href="{% url 'my_requests' %}">View my requests</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

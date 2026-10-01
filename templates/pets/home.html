@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Adopt a pet{% endblock %}
+{% block hero %}
+<section class="hero py-5">
+  <div class="container">
+    <h1>Every pet here is waiting for a home.</h1>
+    <p class="lead mt-3">Browse dogs, cats, birds and rabbits from rescues around Bangladesh, then apply to adopt in a few minutes.</p>
+    <form class="row g-2 mt-3" method="get" action="{% url 'pet_list' %}">
+      <div class="col-12 col-md-5"><input class="form-control form-control-lg" type="search" name="q" placeholder="Search by name, breed or type" aria-label="Search pets"></div>
+      <div class="col-6 col-md-3">{{ filter_form.animal_type }}</div>
+      <div class="col-6 col-md-2"><button class="btn btn-primary w-100" type="submit">Search</button></div>
+    </form>
+    <div class="hero-stats d-flex gap-4 mt-4">
+      <div><strong>{{ available_count }}</strong><br>waiting for a home</div>
+      <div><strong>{{ adopted_count }}</strong><br>already adopted</div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-end mb-3">
+  <h2 class="h3 mb-0">Newly listed pets</h2>
+  <a href="{% url 'pet_list' %}">See all pets</a>
+</div>
+<div class="row g-4">
+  {% for pet in latest_pets %}
+  <div class="col-12 col-sm-6 col-lg-4">{% include "includes/pet_card.html" %}</div>
+  {% empty %}
+  <div class="empty-state"><p>No pets are listed yet. Add some from the admin site.</p></div>
+  {% endfor %}
+</div>
+{% endblock %}

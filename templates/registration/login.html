@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Log in{% endblock %}
+{% block content %}
+<div class="form-narrow">
+  <h1 class="h2">Log in</h1>
+  <form method="post" class="panel p-4" novalidate>
+    {% csrf_token %}
+    {% if form.non_field_errors %}<div class="alert alert-danger">{% for e in form.non_field_errors %}{{ e }}{% endfor %}</div>{% endif %}
+    {% for field in form %}{% include "includes/field.html" %}{% endfor %}
+    <input type="hidden" name="next" value="{{ next }}">
+    <div class="text-center">
+      <button class="btn btn-primary px-4" type="submit">Log in</button>
+      <div class="mt-2"><a href="{% url 'register' %}">Create an account</a></div>
+    </div>
+  </form>
+</div>
+{% endblock %}

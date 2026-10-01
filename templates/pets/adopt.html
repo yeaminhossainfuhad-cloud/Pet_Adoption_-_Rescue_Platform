@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Apply to adopt {{ pet.name }}{% endblock %}
+{% block content %}
+<div class="form-narrow">
+  <h1 class="h2">Adoption application for {{ pet.name }}</h1>
+  <p class="text-muted">{{ pet.animal_type }}{% if pet.breed %}, {{ pet.breed }}{% endif %}, in {{ pet.location }}</p>
+  <form method="post" class="panel p-4" novalidate>
+    {% csrf_token %}
+    {% if form.non_field_errors %}
+      <div class="alert alert-danger">{% for e in form.non_field_errors %}{{ e }}{% endfor %}</div>
+    {% endif %}
+    {% for field in form %}{% include "includes/field.html" %}{% endfor %}
+    <button class="btn btn-accent" type="submit">Submit application</button>
+    <a class="btn btn-link" href="{% url 'pet_detail' pet.pk %}">Cancel</a>
+  </form>
+</div>
+{% endblock %}
