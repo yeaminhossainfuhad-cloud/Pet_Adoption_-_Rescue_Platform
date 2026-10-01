@@ -494,8 +494,8 @@ Pet_Adoption_&_Rescue_Platform/
 ## 1. Clone the Repository
 
 ``` bash
-git clone <YOUR_GITHUB_REPOSITORY_URL>
-cd <PROJECT_DIRECTORY>
+https://github.com/yeaminhossainfuhad-cloud/Pet_Adoption_-_Rescue_Platform.git
+cd Pet_Adoption_-_Rescue_Platform
 ```
 
 ## 2. Create a Virtual Environment
